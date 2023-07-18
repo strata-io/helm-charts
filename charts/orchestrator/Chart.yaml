@@ -1,0 +1,34 @@
+apiVersion: v2
+name: orchestrator
+description: |
+  Maverics Identity Orchestrator (also referred to as an "Orchestrator") is a 
+  distributed identity management platform that abstracts authentication and session 
+  management, connects to any identity/attribute system, replicates and synchronizes 
+  policies and configurations.
+home: https://www.strata.io/
+icon: https://raw.githubusercontent.com/strata-io/helm-charts/main/assets/logo_maverics.png
+
+type: application
+
+# This is the chart version. This version number should be incremented each time we 
+# make changes to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 0.1.0
+
+# This is the version number of the application being deployed. This version number 
+# should be incremented each time we make changes to the application. Versions are 
+# not expected to follow Semantic Versioning. They should reflect the version the 
+# application is using. It is recommended to use it with quotes.
+appVersion: "0.23.31"
+
+keywords:
+  - identity
+  - orchestration
+  - authentication
+  - authorization
+  - idp
+  - oidc
+  - saml
+  - webauthn
+  - cybersecurity
+  - mesh

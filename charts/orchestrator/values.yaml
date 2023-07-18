@@ -1,0 +1,207 @@
+# Default values for orchestrator.
+# This is a YAML-formatted file.
+
+replicaCount: 3
+
+image:
+  repository: maverics
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+clusterDomain: cluster.local
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  seccompProfile:
+    type: RuntimeDefault
+  runAsNonRoot: true
+
+# The default is to deploy all pods serially. By setting this to parallel all pods 
+# are started at the same time when bootstrapping the cluster.
+podManagementPolicy: "Parallel"
+
+podDisruptionBudget:
+  enabled: false
+  # Uncomment only one of the following when enabled is set to true.
+  # maxUnavailable: "50%"
+  # minAvailable: "50%"
+
+updateStrategy: RollingUpdate
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 10001
+
+hostNetwork: false
+
+priorityClassName: ""
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: orchestrators.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: orchestrators-local-tls
+  #    hosts:
+  #      - orchestrators.local
+
+resources: {}
+  # We leave this as a conscious choice for the user. This also increases the chance 
+  # our charts will run on environments with little resources, such as Minikube. We 
+  # can still provide recommendations for different types of workloads.
+  #
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+env: {}
+#  ENV_NAME: test_value
+
+envValueFrom: {}
+#  ENV_NAME:
+#    configMapKeyRef:
+#      name: configmap-name
+#      key: value_key
+
+envFromSecrets: []
+# - name: secret-name
+#   optional: true
+
+envFromConfigMaps: []
+# - name: configmap-name
+#   optional: true
+
+extraSecretMounts: []
+
+extraVolumeMounts: []
+
+cloud:
+  enabled: false
+  config:
+    # Creates a Kubernetes ConfigMap for the cloud config.
+    # Set this to false and provide a configName to use an externally configured 
+    # configMap.
+    createConfig: true
+    configName: ""
+    # Base64 encoded environment bundle public key.
+    # The public key can be base64 encoded by running the following:
+    #   base64 -i /path/to/env_public_key.pem
+    bundlePublicKeyB64: YmFzZTY0IC1pIC4vZW52X3B1YmxpY19rZXkucGVtCg==
+    # Base64 encoded bundle file downloaded from Maverics.
+    # The bundle can be base64 encoded by running the following:
+    #   base64 -i /path/to/maverics.tar.gz
+    bundleB64: YmFzZTY0IC1pIC4vbWF2ZXJpY3MudGFyLmd6Cg==
+
+orchestrator:
+  groups:
+    primary:
+      # The name of the Orchestrator Group.
+      # If not set and create is true, a name is generated using the fullname template.
+      name: ""
+      psk:
+        # Creates a Kubernetes secret and references it directly.
+        # Only set this to false if taking advantage of the Orchestrators native
+        # environmental variable or secret store support.
+        createSecret: true
+        # The name of the PSK secret.
+        # If not set and create is true, a name is generated using the fullname template.
+        secretName: ""
+        # The value of the PSK. This can be the raw value or it can take advantage of
+        # the Orchestrators support for environmental variables or secret stores. If
+        # createSecret is true, this value will be stored in the secret instead of 
+        # being set as a raw environmental variable.
+        value: ""
+  # This is the base configuration used for the Orchestrator. By default, it 
+  # configures the Orchestrators to be in an Orchestrator Group and it has Group 
+  # HTTP Routing enabled. Configuration provided in customConfig will be merged with
+  # this config. The customConfig will override any overlapping values. To not use
+  # this baseConfig, just set it to `{}` in your values file.
+  baseConfig:
+    version: 0.0.1
+
+    features:
+      experimental.orchestratorGroups: true
+
+    http:
+      address: >-
+        {{ printf "{{ env.MAVERICS_ADDRESS}}" }}
+      routing:
+        enabled: true
+        type: group
+        group:
+          name: >-
+            {{ printf "{{ env.MAVERICS_GROUPS_PRIMARY_NAME }}" }}
+
+    orchestratorGroups:
+      - name: >-
+          {{ printf "{{ env.MAVERICS_GROUPS_PRIMARY_NAME }}" }}
+        addresses:
+          membership: >-
+            {{ printf "{{ env.MAVERICS_GROUPS_PRIMARY_MEMBERSHIP_ADDR }}" }}
+          data: >-
+            {{ printf "{{ env.MAVERICS_GROUPS_PRIMARY_DATA_ADDR }}" }}
+        discovery:
+          method: srvDNS
+          srvDNS:
+            pollInterval: 5s
+            names:
+              - >-
+                {{ printf "{{ env.MAVERICS_GROUPS_PRIMARY_MEMBERSHIP_SRV_RECORD }}" }}
+        encryption:
+          nodeKey:
+            file: >-
+              {{ printf "{{ env.MAVERICS_GROUPS_PRIMARY_NODE_KEY_FILE}}" }}
+          psk: >-
+            {{ printf "{{ env.MAVERICS_GROUPS_PRIMARY_SECURITY_PSK}}" }}
+
+  # The user provided custom configuration for the Orchestrator. This will be merged
+  # with the baseConfig. This config will override any overlapping values in the
+  # baseConfig.
+  customConfig: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+terminationGracePeriod: 120

@@ -1,0 +1,185 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "orchestrator.fullname" . }}
+  labels:
+    {{- include "orchestrator.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  minReadySeconds: 2
+  selector:
+    matchLabels:
+      {{- include "orchestrator.selectorLabels" . | nindent 6 }}
+  podManagementPolicy: {{ .Values.podManagementPolicy }}
+  updateStrategy:
+    type: {{ .Values.updateStrategy }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "orchestrator.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.hostNetwork }}
+      hostNetwork: true
+      {{- end }}
+      {{- if .Values.priorityClassName }}
+      priorityClassName: "{{ .Values.priorityClassName }}"
+      {{- end }}
+      serviceAccountName: {{ include "orchestrator.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: MAVERICS_ADDRESS
+              value: "0.0.0.0:{{ .Values.service.port }}"
+            {{ if .Values.cloud.enabled }}
+            - name: MAVERICS_BUNDLE_PUBLIC_KEY_FILE
+              value: /etc/maverics/cloud-config/bundle_public_key.pem
+            - name: MAVERICS_CONFIG
+              value: /etc/maverics/cloud-config/maverics.tar.gz
+            {{ else }}
+            - name: MAVERICS_CONFIG
+              value: /etc/maverics/config/maverics.yml
+            {{ end }}
+            - name: MAVERICS_GROUPS_PRIMARY_NAME
+              value: {{ include "orchestrator.primaryGroupName" . }}
+            - name: MAVERICS_GROUPS_PRIMARY_MEMBERSHIP_ADDR
+              value: /ip4/0.0.0.0/tcp/9450
+            - name: MAVERICS_GROUPS_PRIMARY_MEMBERSHIP_SRV_RECORD
+              value: "_membership-udp._udp.{{ include "orchestrator.fullname" . }}-groups.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}."
+            - name: MAVERICS_GROUPS_PRIMARY_DATA_ADDR
+              value: /ip4/0.0.0.0/tcp/9451
+            - name: MAVERICS_GROUPS_PRIMARY_SECURITY_PSK
+            {{ if .Values.orchestrator.groups.primary.psk.createSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ include "orchestrator.primaryGroupPSKSecretName" .}}"
+                  key: psk
+            {{ else }}
+              value: "{{ .Values.orchestrator.groups.primary.psk.value }}"
+            {{ end }}
+            - name: MAVERICS_GROUPS_PRIMARY_NODE_KEY_FILE
+              value: /etc/maverics/groups/tls/primary-key
+            {{- range $key, $value := .Values.env }}
+            - name: "{{ tpl $key $ }}"
+              value: "{{ tpl (print $value) $ }}"
+            {{- end }}
+            {{- range $key, $value := .Values.envValueFrom }}
+            - name: {{ $key | quote }}
+              valueFrom:
+                {{- tpl (toYaml $value) $ | nindent 16 }}
+            {{- end }}
+          {{- if or .Values.envFromSecrets .Values.envFromConfigMaps}}
+          envFrom:
+            {{- range .Values.envFromSecrets }}
+            - secretRef:
+                name: {{ tpl .name $ }}
+                optional: {{ .optional | default false }}
+            {{- end }}
+            {{- range .Values.envFromConfigMaps }}
+            - configMapRef:
+                name: {{ tpl .name $ }}
+                optional: {{ .optional | default false }}
+            {{- end }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: http
+            initialDelaySeconds: 25
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /status
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: orchestrator-config
+              mountPath: /etc/maverics/config/
+            {{- if .Values.cloud.enabled }}
+            - name: cloud-config
+              mountPath: /etc/maverics/cloud-config/
+            {{- end }}
+            - name: groups-certificates
+              mountPath: /etc/maverics/groups/tls
+            {{- range .Values.extraSecretMounts }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              readOnly: {{ .readOnly }}
+              subPath: {{ .subPath | default "" }}
+            {{- end }}
+            {{- range .Values.extraVolumeMounts }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              subPath: {{ .subPath | default "" }}
+              readOnly: {{ .readOnly }}
+            {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriod }}
+      volumes:
+        - name: orchestrator-config
+          configMap:
+            name: {{ template "orchestrator.fullname" . }}-config
+        {{- if .Values.cloud.enabled }}
+        - name: cloud-config
+          configMap:
+            name: {{ template "orchestrator.cloudConfigName" . }}
+        {{- end }}
+        - name: groups-certificates
+          emptyDir: {}
+        {{- range .Values.extraConfigmapMounts }}
+        - name: {{ tpl .name . }}
+          configMap:
+            name: {{ tpl .configMap . }}
+            {{- with .items }}
+            items:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+        {{- end }}
+        {{- range .Values.extraVolumeMounts }}
+        - name: {{ .name }}
+          {{- if .existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ .existingClaim }}
+          {{- else if .hostPath }}
+          hostPath:
+            path: {{ .hostPath }}
+          {{- else if .csi }}
+          csi:
+            {{- toYaml .data | nindent 6 }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

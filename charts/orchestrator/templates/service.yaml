@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "orchestrator.fullname" . }}
+  labels:
+    {{- include "orchestrator.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "orchestrator.selectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "orchestrator.fullname" . }}-groups
+  labels:
+    {{- include "orchestrator.labels" . | nindent 4 }}
+spec:
+  clusterIP: None 
+  ports:
+    - name: membership-tcp
+      protocol: TCP
+      port: 9450
+      targetPort: 9450
+    - name: membership-udp
+      protocol: UDP
+      port: 9450
+      targetPort: 9450
+    - name: data
+      protocol: TCP
+      port: 9451
+      targetPort: 9451
+  selector:
+    {{- include "orchestrator.selectorLabels" . | nindent 4 }}

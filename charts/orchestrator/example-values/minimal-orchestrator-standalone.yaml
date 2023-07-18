@@ -1,0 +1,12 @@
+replicaCount: 1
+
+orchestrator:
+  # We explicitly set the baseConfig to empty, so that the baseConfig will not be 
+  # used.
+  baseConfig: {}
+  customConfig:
+    version: 0.0.1
+
+    http:
+      address: >-
+        {{ printf "{{ env.MAVERICS_ADDRESS}}" }}

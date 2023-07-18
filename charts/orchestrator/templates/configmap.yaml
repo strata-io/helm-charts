@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "orchestrator.fullname" . }}-config
+  labels:
+    {{- include "orchestrator.labels" . | nindent 4 }}
+data:
+  maverics.yml: |
+    {{- include "orchestrator.deploymentConfig" . | nindent 4 -}}
+---
+{{ if and .Values.cloud.enabled (and .Values.cloud.config.createConfig) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "orchestrator.cloudConfigName" . }}
+  labels:
+    {{- include "orchestrator.labels" . | nindent 4 }}
+binaryData:
+  bundle_public_key.pem: |-
+    {{ .Values.cloud.config.bundlePublicKeyB64 | indent 4 }}
+  {{- if .Values.cloud.config.bundleB64 }}
+  maverics.tar.gz: |-
+    {{ .Values.cloud.config.bundleB64 | indent 4 }}
+  {{ end }}
+{{- end }}
