@@ -31,7 +31,7 @@ podSecurityContext:
     type: RuntimeDefault
   runAsNonRoot: true
 
-# The default is to deploy all pods serially. By setting this to parallel all pods 
+# The default is to deploy all pods serially. By setting this to parallel all pods
 # are started at the same time when bootstrapping the cluster.
 podManagementPolicy: "Parallel"
 
@@ -75,8 +75,8 @@ ingress:
   #      - orchestrators.local
 
 resources: {}
-  # We leave this as a conscious choice for the user. This also increases the chance 
-  # our charts will run on environments with little resources, such as Minikube. We 
+  # We leave this as a conscious choice for the user. This also increases the chance
+  # our charts will run on environments with little resources, such as Minikube. We
   # can still provide recommendations for different types of workloads.
   #
   # limits:
@@ -118,7 +118,7 @@ cloud:
   enabled: false
   config:
     # Creates a Kubernetes ConfigMap for the cloud config.
-    # Set this to false and provide a configName to use an externally configured 
+    # Set this to false and provide a configName to use an externally configured
     # configMap.
     createConfig: true
     configName: ""
@@ -147,11 +147,11 @@ orchestrator:
         secretName: ""
         # The value of the PSK. This can be the raw value or it can take advantage of
         # the Orchestrators support for environmental variables or secret stores. If
-        # createSecret is true, this value will be stored in the secret instead of 
+        # createSecret is true, this value will be stored in the secret instead of
         # being set as a raw environmental variable.
         value: ""
-  # This is the base configuration used for the Orchestrator. By default, it 
-  # configures the Orchestrators to be in an Orchestrator Group and it has Group 
+  # This is the base configuration used for the Orchestrator. By default, it
+  # configures the Orchestrators to be in an Orchestrator Group and it has Group
   # HTTP Routing enabled. Configuration provided in customConfig will be merged with
   # this config. The customConfig will override any overlapping values. To not use
   # this baseConfig, just set it to `{}` in your values file.
