@@ -1,6 +1,6 @@
 # Orchestrator for Kubernetes
 
-[Orchestrator for Kubernetes](helhttps://strata-io.github.io/helm-charts) is the fastest way to deploy Identity Orchestration on Kubernetes.
+[Orchestrator for Kubernetes](https://strata-io.github.io/helm-charts) is the fastest way to deploy Identity Orchestration on Kubernetes.
 
 This chart bootstraps an Orchestrator deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
@@ -21,7 +21,7 @@ Kubernetes: `>=1.20.0-0`
 ## Add and Update Repo
 
 ```console
-helm repo add strata helhttps://strata-io.github.io/helm-charts
+helm repo add strata https://strata-io.github.io/helm-charts
 helm repo update
 ```
 
