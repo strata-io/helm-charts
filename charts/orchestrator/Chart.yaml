@@ -32,3 +32,7 @@ keywords:
   - webauthn
   - cybersecurity
   - mesh
+
+maintainers:
+  - name: gramidt
+    email: granville@strata.io
