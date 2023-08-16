@@ -1,3 +1,6 @@
+image:
+  repository: registry.connect.redhat.com/strata-identity/orchestrator
+
 # OpenShift dynamically assigns a user ID to the container at runtime. The default
 # value of runAsUser is 10001, which is not a valid user ID on OpenShift. Setting
 # runAsUser to null allows OpenShift to assign a user ID to the container at runtime.
