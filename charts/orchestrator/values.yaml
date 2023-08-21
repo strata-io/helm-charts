@@ -111,6 +111,11 @@ envFromConfigMaps: []
 #   optional: true
 
 extraSecretMounts: []
+# - name: maverics-tls
+#   mountPath: /etc/maverics/certs
+#   secretName: maverics-tls
+#   readOnly: true
+#   subPath: ""
 
 extraVolumeMounts: []
 
