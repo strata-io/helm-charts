@@ -3,7 +3,7 @@ replicaCount: 1
 orchestrator:
   # We explicitly set the baseConfig to empty, so that the baseConfig will not be 
   # used.
-  baseConfig: {}
+  baseConfig: null
   customConfig:
     version: 0.0.1
 
