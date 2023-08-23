@@ -130,13 +130,24 @@ cloud:
     # Base64 encoded environment bundle public key.
     # The public key can be base64 encoded by running the following:
     #   base64 -i /path/to/env_public_key.pem
-    bundlePublicKeyB64: YmFzZTY0IC1pIC4vZW52X3B1YmxpY19rZXkucGVtCg==
+    bundlePublicKeyB64: ""
     # Base64 encoded bundle file downloaded from Maverics.
     # The bundle can be base64 encoded by running the following:
     #   base64 -i /path/to/maverics.tar.gz
-    bundleB64: YmFzZTY0IC1pIC4vbWF2ZXJpY3MudGFyLmd6Cg==
+    bundleB64: ""
 
 orchestrator:
+  readinessProbe:
+    httpGet:
+      path: /status
+      port: http
+    initialDelaySeconds: 5
+  livenessProbe:
+    httpGet:
+      path: /status
+      port: http
+    initialDelaySeconds: 25
+    periodSeconds: 30
   groups:
     primary:
       # The name of the Orchestrator Group.
@@ -168,7 +179,7 @@ orchestrator:
 
     http:
       address: >-
-        {{ printf "{{ env.MAVERICS_ADDRESS}}" }}
+        {{ printf "{{ env.MAVERICS_HTTP_ADDRESS}}" }}
       routing:
         enabled: true
         type: group

@@ -45,13 +45,15 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: MAVERICS_ADDRESS
+            - name: MAVERICS_HTTP_ADDRESS
               value: "0.0.0.0:{{ .Values.service.port }}"
             {{ if .Values.cloud.enabled }}
             - name: MAVERICS_BUNDLE_PUBLIC_KEY_FILE
               value: /etc/maverics/cloud-config/bundle_public_key.pem
+            {{ if .Values.cloud.config.bundleB64 }}
             - name: MAVERICS_CONFIG
               value: /etc/maverics/cloud-config/maverics.tar.gz
+            {{ end }}
             {{ else }}
             - name: MAVERICS_CONFIG
               value: /etc/maverics/config/maverics.yml
@@ -102,25 +104,18 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /status
-              port: http
-            initialDelaySeconds: 25
-            periodSeconds: 30
+            {{- toYaml .Values.orchestrator.livenessProbe | nindent 12 }}
           readinessProbe:
-            httpGet:
-              path: /status
-              port: http
-            initialDelaySeconds: 5
-            periodSeconds: 10
+            {{- toYaml .Values.orchestrator.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - name: orchestrator-config
-              mountPath: /etc/maverics/config/
             {{- if .Values.cloud.enabled }}
             - name: cloud-config
               mountPath: /etc/maverics/cloud-config/
+            {{- else }}
+            - name: orchestrator-config
+              mountPath: /etc/maverics/config/
             {{- end }}
             - name: groups-certificates
               mountPath: /etc/maverics/groups/tls
