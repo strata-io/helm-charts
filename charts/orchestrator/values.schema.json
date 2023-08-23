@@ -263,6 +263,9 @@
                                         "createSecret": {
                                             "type": "boolean"
                                         },
+                                        "secretKey": {
+                                            "type": "string"
+                                        },
                                         "secretName": {
                                             "type": "string"
                                         },
