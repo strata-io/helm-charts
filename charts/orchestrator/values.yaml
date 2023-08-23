@@ -161,10 +161,10 @@ orchestrator:
         # The name of the PSK secret.
         # If not set and create is true, a name is generated using the fullname template.
         secretName: ""
+        # The name of the key identifying the PSK within the secret.
+        secretKey: "psk"
         # The value of the PSK. This can be the raw value or it can take advantage of
-        # the Orchestrators support for environmental variables or secret stores. If
-        # createSecret is true, this value will be stored in the secret instead of
-        # being set as a raw environmental variable.
+        # the Orchestrators support for environmental variables or secret stores.
         value: ""
   # This is the base configuration used for the Orchestrator. By default, it
   # configures the Orchestrators to be in an Orchestrator Group and it has Group

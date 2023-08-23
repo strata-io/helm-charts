@@ -66,14 +66,14 @@ spec:
               value: "_membership-udp._udp.{{ include "orchestrator.fullname" . }}-groups.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}."
             - name: MAVERICS_GROUPS_PRIMARY_DATA_ADDR
               value: /ip4/0.0.0.0/tcp/9451
+            {{ with .Values.orchestrator.groups.primary.psk }}
+            {{ if or (and .createSecret .value) .secretName }}
             - name: MAVERICS_GROUPS_PRIMARY_SECURITY_PSK
-            {{ if .Values.orchestrator.groups.primary.psk.createSecret }}
               valueFrom:
                 secretKeyRef:
-                  name: "{{ include "orchestrator.primaryGroupPSKSecretName" .}}"
-                  key: psk
-            {{ else }}
-              value: "{{ .Values.orchestrator.groups.primary.psk.value }}"
+                  name: "{{ include "orchestrator.primaryGroupPSKSecretName" $ }}"
+                  key: "{{ required "A valid key name for the PSK is required!" .secretKey }}"
+            {{ end }}
             {{ end }}
             - name: MAVERICS_GROUPS_PRIMARY_NODE_KEY_FILE
               value: /etc/maverics/groups/tls/primary-key
