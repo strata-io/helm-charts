@@ -9,4 +9,4 @@ orchestrator:
 
     http:
       address: >-
-        {{ printf "{{ env.MAVERICS_ADDRESS}}" }}
+        {{ printf "{{ env.MAVERICS_HTTP_ADDRESS}}" }}
