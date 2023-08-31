@@ -1,8 +1,11 @@
-# Orchestrator for Kubernetes
+# Maverics Orchestrator for Kubernetes
 
-[Orchestrator for Kubernetes](https://strata-io.github.io/helm-charts) is the fastest way to deploy Identity Orchestration on Kubernetes.
+[Maverics Orchestrator for Kubernetes](https://strata-io.github.io/helm-charts) is
+the fastest way to deploy Identity Orchestration on Kubernetes.
 
-This chart bootstraps an Orchestrator deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps a Maverics Orchestrator deployment on a
+[Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package
+manager.
 
 ## Table of contents
 
@@ -34,7 +37,7 @@ Deploy the Orchestrator into an existing namespace:
 helm install [RELEASE_NAME] strata/orchestrator --namespace [EXISTING_NAMESPACE]
 ```
 
-Deploy the Orchestrator into a new namespace. Upgrade the the deployment if it 
+Deploy the Orchestrator into a new namespace. Upgrade the the deployment if it
 already exists.
 ```console
 helm upgrade maverics . --namespace [NEW_NAMESPACE]--create-namespace --values [PATH_TO_VALUES_YAML] --install

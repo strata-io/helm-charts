@@ -89,7 +89,7 @@ resources: {}
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 10
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
@@ -148,7 +148,9 @@ orchestrator:
       port: http
     initialDelaySeconds: 25
     periodSeconds: 30
+
   groups:
+    create: false
     primary:
       # The name of the Orchestrator Group.
       # If not set and create is true, a name is generated using the fullname template.
@@ -157,7 +159,7 @@ orchestrator:
         # Creates a Kubernetes secret and references it directly.
         # Only set this to false if taking advantage of the Orchestrators native
         # environmental variable or secret store support.
-        createSecret: true
+        createSecret: false
         # The name of the PSK secret.
         # If not set and create is true, a name is generated using the fullname template.
         secretName: ""
@@ -175,7 +177,7 @@ orchestrator:
     version: 0.0.1
 
     features:
-      experimental.orchestratorGroups: true
+      experimental.orchestratorGroups: false
 
     http:
       address: >-

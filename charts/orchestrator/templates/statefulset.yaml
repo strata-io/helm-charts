@@ -47,17 +47,18 @@ spec:
           env:
             - name: MAVERICS_HTTP_ADDRESS
               value: "0.0.0.0:{{ .Values.service.port }}"
-            {{ if .Values.cloud.enabled }}
+            {{- if .Values.cloud.enabled }}
             - name: MAVERICS_BUNDLE_PUBLIC_KEY_FILE
               value: /etc/maverics/cloud-config/bundle_public_key.pem
-            {{ if .Values.cloud.config.bundleB64 }}
+            {{- if .Values.cloud.config.bundleB64 }}
             - name: MAVERICS_CONFIG
               value: /etc/maverics/cloud-config/maverics.tar.gz
-            {{ end }}
+            {{- end -}}
             {{ else }}
             - name: MAVERICS_CONFIG
               value: /etc/maverics/config/maverics.yml
-            {{ end }}
+            {{- end }}
+            {{- if .Values.orchestrator.groups.create -}}
             - name: MAVERICS_GROUPS_PRIMARY_NAME
               value: {{ include "orchestrator.primaryGroupName" . }}
             - name: MAVERICS_GROUPS_PRIMARY_MEMBERSHIP_ADDR
@@ -85,6 +86,7 @@ spec:
             - name: {{ $key | quote }}
               valueFrom:
                 {{- tpl (toYaml $value) $ | nindent 16 }}
+            {{- end }}
             {{- end }}
           {{- if or .Values.envFromSecrets .Values.envFromConfigMaps}}
           envFrom:
