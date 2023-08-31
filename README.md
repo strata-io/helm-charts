@@ -1,7 +1,7 @@
 # Strata Identity Kubernetes Helm Charts
 
-This is the official Helm Charts repository for installing the Strata Identity 
-Orchestration platform on Kubernetes.
+This is the official Helm Charts repository for installing the Maverics Orchestrator
+on Kubernetes.
 
 ## Usage
 
@@ -25,7 +25,9 @@ To uninstall the chart:
     helm delete my-orchestrator
 
 ## Documentation
-The documentation for the Orchestrator Helm Chart is available [here](https://github.com/strata-io/helm-charts/charts/orchestrator/README.md)
+The documentation for the Maverics Orchestrator Helm Chart is available
+[here](https://github.com/strata-io/helm-charts/charts/orchestrator/README.md)
 
 ## Support
-If you run into an issue, bug or have a question, please reach out to the [Strata Identity team](https://www.strata.io/company/contact/).
+If you run into an issue, bug or have a question, please reach out to the [Strata
+Identity team](https://www.strata.io/company/contact/).

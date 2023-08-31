@@ -20,13 +20,13 @@ type: application
 # This is the chart version. This version number should be incremented each time we
 # make changes to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.9
+version: 0.1.10
 
 # This is the version number of the application being deployed. This version number
 # should be incremented each time we make changes to the application. Versions are
 # not expected to follow Semantic Versioning. They should reflect the version the
 # application is using. It is recommended to use it with quotes.
-appVersion: "0.23.31"
+appVersion: "0.23.45"
 
 # Our minimum Kubernetes version is 1.24.0. This is the version of Kubernetes that
 # we have tested and verified that the chart works with. Users are free to try
