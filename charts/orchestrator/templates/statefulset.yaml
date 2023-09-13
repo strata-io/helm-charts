@@ -78,6 +78,7 @@ spec:
             {{ end }}
             - name: MAVERICS_GROUPS_PRIMARY_NODE_KEY_FILE
               value: /etc/maverics/groups/tls/primary-key
+            {{- end }}
             {{- range $key, $value := .Values.env }}
             - name: "{{ tpl $key $ }}"
               value: "{{ tpl (print $value) $ }}"
@@ -86,7 +87,6 @@ spec:
             - name: {{ $key | quote }}
               valueFrom:
                 {{- tpl (toYaml $value) $ | nindent 16 }}
-            {{- end }}
             {{- end }}
           {{- if or .Values.envFromSecrets .Values.envFromConfigMaps}}
           envFrom:
