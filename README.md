@@ -16,17 +16,9 @@ If you had already added this repo earlier, run `helm repo update` to retrieve
 the latest versions of the packages.  You can then run `helm search repo
 strata` to see the charts.
 
-To install the orchestrator chart:
-
-    helm install my-orchestrator strata/orchestrator
-
-To uninstall the chart:
-
-    helm delete my-orchestrator
-
 ## Documentation
 The documentation for the Maverics Orchestrator Helm Chart is available
-[here](https://github.com/strata-io/helm-charts/charts/orchestrator/README.md)
+[here](https://github.com/strata-io/helm-charts/blob/main/charts/orchestrator/README.md)
 
 ## Support
 If you run into an issue, bug or have a question, please reach out to the [Strata

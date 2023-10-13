@@ -19,7 +19,7 @@ manager.
 
 ## Prerequisites
 
-Kubernetes: `>=1.20.0-0`
+Kubernetes: `>=1.24.0-0`
 
 ## Add and Update Repo
 
