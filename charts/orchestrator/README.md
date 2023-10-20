@@ -21,12 +21,19 @@ manager.
 
 Kubernetes: `>=1.24.0-0`
 
+## Download the Orchestrator Image
+```console
+Please make sure you have downloaded the orchestrator image and uploaded it to your image registry. Once uploaded, modify the values in your values.yaml file to reflect the repository and tag.
+```
+
 ## Add and Update Repo
 
 ```console
 helm repo add strata https://strata-io.github.io/helm-charts
 helm repo update
 ```
+
+
 
 ## Install
 
