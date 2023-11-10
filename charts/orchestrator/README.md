@@ -22,9 +22,9 @@ manager.
 Kubernetes: `>=1.24.0-0`
 
 ## Download the Orchestrator Image
-```console
-Please make sure you have downloaded the orchestrator image and uploaded it to your image registry. Once uploaded, modify the values in your values.yaml file to reflect the repository and tag.
-```
+
+Please make sure you have downloaded the orchestrator image and uploaded it to your image registry. You can obtain the orchestrator image by signing up with Strata at [https://maverics.strata.io](https://maverics.strata.io). Once uploaded, modify the values in your values.yaml file to reflect the repository and tag.
+
 
 ## Add and Update Repo
 
