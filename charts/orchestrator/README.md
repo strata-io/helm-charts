@@ -9,17 +9,20 @@ manager.
 
 ## Table of contents
 
-- [Prerequisites](#prerequisites)
-- [Install](#install)
-- [Upgrade](#upgrade)
-- [Uninstall](#uninstall)
-- [FAQs](#faqs)
-- [Deployment Options](#deployment-options)
-- [Configuration](#configuration)
+- [Maverics Orchestrator for Kubernetes](#maverics-orchestrator-for-kubernetes)
+  - [Table of contents](#table-of-contents)
+  - [Prerequisites](#prerequisites)
+  - [Add and Update Repo](#add-and-update-repo)
+  - [Install](#install)
+  - [Upgrade](#upgrade)
+  - [Uninstall](#uninstall)
+  - [FAQs](#faqs)
+  - [Deployment Options](#deployment-options)
+  - [Configuration](#configuration)
 
 ## Prerequisites
 
-Kubernetes: `>=1.20.0-0`
+Kubernetes: `>=1.21.0-0`
 
 ## Add and Update Repo
 
