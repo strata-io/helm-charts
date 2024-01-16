@@ -8,7 +8,12 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
+  {{- if semverCompare ">=1.22-0" .Capabilities.KubeVersion.GitVersion }}
   minReadySeconds: 2
+  {{- end}}
+  {{- if semverCompare "<=1.24-0" .Capabilities.KubeVersion.GitVersion }}
+  serviceName: {{ include "orchestrator.fullname" . }}
+  {{- end}}
   selector:
     matchLabels:
       {{- include "orchestrator.selectorLabels" . | nindent 6 }}

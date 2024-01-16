@@ -37,7 +37,7 @@ appVersion: "0.23.45"
 # required by RedHat Marketplace for certification of the chart.
 #
 # Before changing this value, please check compatibility with customer deployments.
-kubeVersion: '>=1.24.0'
+kubeVersion: '>=1.21.0'
 
 keywords:
   - identity
