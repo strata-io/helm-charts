@@ -118,6 +118,20 @@ extraSecretMounts: []
 #   subPath: ""
 
 extraVolumeMounts: []
+# - name: orchestrator-assets
+#   # mountPath defines the path on the volume.
+#   mountPath: /assets
+#   # subPath defines a sub-path inside the referenced volume.
+#   subPath: /certs
+#   # readOnly is a property to make the volume mount read only.
+#   readOnly: true
+#   # existingClaim is the name of the Persistent Volume Claim.
+#   existingClaim: orchestrator-assets
+#   # hostPath is the path to the assets on the host.
+#   hostPath: /assets
+#   # csi defines the configuration to expose arbitrary storage systems to their
+#   # container workloads.
+#   csi: {}
 
 cloud:
   enabled: false
