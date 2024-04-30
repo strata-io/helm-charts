@@ -8,7 +8,7 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
-  {{- if semverCompare ">=1.22-0" .Capabilities.KubeVersion.Version }}
+  {{- if semverCompare ">=1.22-0" .Capabilities.KubeVersion.Version }}s
   minReadySeconds: 2
   {{- end}}
   {{- if semverCompare "<=1.24-0" .Capabilities.KubeVersion.Version }}
@@ -142,7 +142,11 @@ spec:
       volumes:
         - name: orchestrator-config
           configMap:
-            name: {{ template "orchestrator.fullname" . }}-config
+             {{- if .Values.orchestrator.customConfig.useCustomConfigMap }}
+             name: {{ .Values.orchestrator.customConfig.useCustomConfigMap.name }}
+             {{- else }}
+             name: {{ template "orchestrator.fullname" . }}-config
+            {{- end }}
         {{- if .Values.cloud.enabled }}
         - name: cloud-config
           configMap:
