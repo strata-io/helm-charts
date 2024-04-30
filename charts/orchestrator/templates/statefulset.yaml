@@ -146,7 +146,7 @@ spec:
              name: {{ .Values.orchestrator.customConfig.useCustomConfigMap.name }}
              {{- else }}
              name: {{ template "orchestrator.fullname" . }}-config
-            {{- end }}
+             {{- end }}
         {{- if .Values.cloud.enabled }}
         - name: cloud-config
           configMap:
