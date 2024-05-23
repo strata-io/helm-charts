@@ -11,5 +11,6 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "orchestrator.fullname" . }}:{{ .Values.service.port }}']
+      args:
+        - '{{ include "orchestrator.fullname" . }}:{{ .Values.service.port }}'
   restartPolicy: Never
