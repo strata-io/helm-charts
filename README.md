@@ -31,3 +31,7 @@ The documentation for the Maverics Orchestrator Helm Chart is available
 ## Support
 If you run into an issue, bug or have a question, please reach out to the [Strata
 Identity team](https://www.strata.io/company/contact/).
+
+## Testing
+Tested locally using `helm template` to validate the output is as expected under different scenarios of values.
+`helm template charts/orchestrator --values charts/orchestrator/example-values/minimal-orchestrator-custom-configmap.yaml`

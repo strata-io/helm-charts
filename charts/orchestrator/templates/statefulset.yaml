@@ -142,11 +142,11 @@ spec:
       volumes:
         - name: orchestrator-config
           configMap:
-            {{- if .Values.orchestrator.customConfig.useCustomConfigMap }}
-            name: {{ .Values.orchestrator.customConfig.useCustomConfigMap.name }}
-            {{- else }}
-            name: {{ template "orchestrator.fullname" . }}-config
-            {{- end }}
+             {{- if .Values.orchestrator.customConfigMapName }}
+             name: {{ .Values.orchestrator.customConfigMapName }}
+             {{- else }}
+             name: {{ template "orchestrator.fullname" . }}-config
+             {{- end }}
         {{- if .Values.cloud.enabled }}
         - name: cloud-config
           configMap:

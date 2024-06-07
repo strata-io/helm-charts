@@ -19,6 +19,8 @@ manager.
   - [FAQs](#faqs)
   - [Deployment Options](#deployment-options)
   - [Configuration](#configuration)
+  - [Troubleshooting](#troubleshooting)
+    - [Pod Won't Start](#pod-wont-start)
 
 ## Prerequisites
 
@@ -72,4 +74,18 @@ See [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_h
 
 ```console
 helm show values strata/orchestrator
+```
+
+## Troubleshooting
+### Pod Won't Start
+If the pod will not start you can validate the reason using the following command
+```console
+kubectl describe pod [RELEASE_NAME]-orchestrator-0 
+```
+
+At the bottom under `Events:` you should be able to see output similiar to below
+```console
+  Type     Reason       Age                   From               Message
+  ----     ------       ----                  ----               -------
+  Warning  FailedMount  119s (x10 over 6m9s)  kubelet            MountVolume.SetUp failed for volume "orchestrator-config" : configmap "myCustomConfig" not found
 ```

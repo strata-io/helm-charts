@@ -1,4 +1,4 @@
-{{- if not .Values.orchestrator.customConfig.useCustomConfigMap }}
+{{- if not .Values.orchestrator.customConfigMapName }}
 apiVersion: v1
 kind: ConfigMap
 metadata:

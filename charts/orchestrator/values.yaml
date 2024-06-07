@@ -216,6 +216,10 @@ orchestrator:
   # baseConfig.
   customConfig: {}
 
+  # The name of the ConfigMap to use for the custom Maverics Orchestrator configuration.
+  # If defined, it will be used instead of the baseConfig and customConfig.
+  customConfigMapName: ""
+
 nodeSelector: {}
 
 tolerations: []
