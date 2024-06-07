@@ -248,6 +248,9 @@
                 "customConfig": {
                     "type": "object"
                 },
+                "customConfigMapName": {
+                    "type": "string"
+                },
                 "groups": {
                     "type": "object",
                     "properties": {

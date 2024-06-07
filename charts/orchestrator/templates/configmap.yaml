@@ -1,3 +1,4 @@
+{{- if not .Values.orchestrator.customConfigMapName }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -7,6 +8,7 @@ metadata:
 data:
   maverics.yml: |
     {{- include "orchestrator.deploymentConfig" . | nindent 4 -}}
+{{- end}}
 ---
 {{ if and .Values.cloud.enabled (and .Values.cloud.config.createConfig) }}
 apiVersion: v1

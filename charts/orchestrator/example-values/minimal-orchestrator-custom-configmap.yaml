@@ -1,0 +1,12 @@
+image:
+  repository: alpine
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: latest
+
+replicaCount: 1
+
+orchestrator:
+  # The name of the ConfigMap to use for the custom Maverics Orchestrator configuration.
+  # If defined, it will be used instead of the baseConfig and customConfig.
+  customConfigMapName: mycustomconfig
