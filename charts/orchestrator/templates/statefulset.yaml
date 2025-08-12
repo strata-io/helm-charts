@@ -50,7 +50,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-          {{- if .Values.configurationStorage.config }}
+          {{- if and .Values.configurationStorage  .Values.configurationStorage.type }}
             - name: {{ .Values.configurationStorage.type }}
               valueFrom: 
                 secretKeyRef:
