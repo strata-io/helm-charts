@@ -50,6 +50,13 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+          {{- if .Values.configurationStorage.config }}
+            - name: {{ .Values.configurationStorage.type }}
+              valueFrom: 
+                secretKeyRef:
+                  name: storage-provider-secret
+                  key: config.json
+          {{- end }}
             - name: MAVERICS_HTTP_ADDRESS
               value: "0.0.0.0:{{ .Values.service.port }}"
             {{- if .Values.cloud.enabled }}
