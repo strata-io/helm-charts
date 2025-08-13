@@ -14,6 +14,7 @@ manager.
   - [Prerequisites](#prerequisites)
   - [Add and Update Repo](#add-and-update-repo)
   - [Install](#install)
+  - [Example Values](#example-values)
   - [Upgrade](#upgrade)
   - [Uninstall](#uninstall)
   - [FAQs](#faqs)
@@ -47,6 +48,10 @@ already exists.
 ```console
 helm upgrade maverics . --namespace [NEW_NAMESPACE]--create-namespace --values [PATH_TO_VALUES_YAML] --install
 ```
+
+## Example Values
+
+Example values files can be found under [example-values/README.md](example-values/README.md).
 
 ## Upgrade
 ```console

@@ -1,0 +1,23 @@
+configurationStorage:
+  type: "MAVERICS_AWS_CONFIG"
+  # Must only set configSecret or config, not both.
+  # configSecret:
+  #   name: manual-storage-provider-secret
+  #   key: config.json
+  config:
+    region: us-east-2
+    bucketName: my-bucket-name
+    accessKeyID: my-access-key-id
+    secretAccessKey: my-secret-access-key
+    configurationFilePath: my-configuration-file-path
+
+
+cloud:
+  enabled: true
+  # Needed to automatically create bundle public key from config below in orchestartor container.
+  createConfig: true
+  config:
+    # Base64 encoded environment bundle public key downloaded from Maverics console deployments page.
+    # The key can be base64 encoded by running the following:
+    #   base64 -i /path/to/env_public_key.pem
+    bundlePublicKeyB64: YmFzZTY0IC1pIC9wYXRoL3RvL2Vudl9wdWJsaWNfa2V5LnBlbQo=
