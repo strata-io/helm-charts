@@ -1,0 +1,19 @@
+replicaCount: 1
+
+env: 
+  MAVERICS_AWS_CONFIG: '{"accessKeyID":"my-access-key-id","bucketName":"my-bucket-name","configurationFilePath":"my-configuration-file-path","region":"us-east-2","secretAccessKey":"my-secret-access-key"}'
+
+# envValueFrom:
+#   MAVERICS_AWS_CONFIG:
+#     secretKeyRef:
+#       name: storage-provider-secret
+#       key: config.json
+
+cloud:
+  enabled: true
+  createConfig: true
+  config:
+    # Base64 encoded environment bundle public key downloaded from Maverics console deployments page.
+    # The key can be base64 encoded by running the following:
+    #   base64 -i /path/to/env_public_key.pem
+    bundlePublicKeyB64: YmFzZTY0IC1pIC9wYXRoL3RvL2Vudl9wdWJsaWNfa2V5LnBlbQo=
