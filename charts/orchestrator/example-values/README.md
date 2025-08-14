@@ -46,10 +46,10 @@ starter template.
   Example of using a secret
   ```
   envValueFrom:
-  MAVERICS_AWS_CONFIG:
-    secretKeyRef:
-      name: storage-provider-secret
-      key: config.json
+    MAVERICS_AWS_CONFIG:
+      secretKeyRef:
+        name: storage-provider-secret
+        key: config.json
 
   cloud:
     enabled: true
