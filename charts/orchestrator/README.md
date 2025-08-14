@@ -15,6 +15,7 @@ manager.
   - [Add and Update Repo](#add-and-update-repo)
   - [Install](#install)
   - [Upgrade](#upgrade)
+  - [Example Values](#example-values)
   - [Uninstall](#uninstall)
   - [FAQs](#faqs)
   - [Deployment Options](#deployment-options)
@@ -54,6 +55,10 @@ helm upgrade [RELEASE_NAME] strata/orchestrator --namespace [NAMESPACE]
 ```
 
 _See [helm upgrade](https://helm.sh/docs/helm/helm_upgrade/) for command documentation._
+
+## Example Values
+
+Example values files can be found under [example-values/README.md](example-values/README.md).
 
 ## Uninstall
 ```console

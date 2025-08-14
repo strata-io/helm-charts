@@ -86,7 +86,7 @@ spec:
             {{- end }}
             {{- range $key, $value := .Values.env }}
             - name: "{{ tpl $key $ }}"
-              value: "{{ tpl (print $value) $ }}"
+              value: {{ tpl ($value | quote) $ }}
             {{- end }}
             {{- range $key, $value := .Values.envValueFrom }}
             - name: {{ $key | quote }}

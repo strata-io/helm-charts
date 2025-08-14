@@ -3,7 +3,8 @@ replicaCount: 1
 cloud:
   enabled: true
   config:
-    # Base64 encoded environment bundle public key downloaded from Maverics.
+    createConfig: true
+    # Base64 encoded environment bundle public key downloaded from Maverics console deployments page.
     # The key can be base64 encoded by running the following:
     #   base64 -i /path/to/env_public_key.pem
     bundlePublicKeyB64: YmFzZTY0IC1pIC9wYXRoL3RvL2Vudl9wdWJsaWNfa2V5LnBlbQo=
