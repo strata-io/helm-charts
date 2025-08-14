@@ -38,8 +38,8 @@ starter template.
     
   cloud:
     enabled: true
-    createConfig: true
     config:
+      createConfig: true
       bundlePublicKeyB64: "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZrd0V3W="
   ```
 
@@ -53,8 +53,8 @@ starter template.
 
   cloud:
     enabled: true
-    createConfig: true
     config:
+      createConfig: true
       bundlePublicKeyB64: "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZrd0V3W="
   ```
 
