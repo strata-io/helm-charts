@@ -34,7 +34,7 @@ starter template.
   Example of using inline
   ```
   env: 
-  MAVERICS_AWS_CONFIG: '{"accessKeyID":"my-access-key-id","bucketName":"my-bucket-name","configurationFilePath":"my-configuration-file-path","region":"us-east-2","secretAccessKey":"my-secret-access-key"}'
+     MAVERICS_AWS_CONFIG: '{"accessKeyID":"my-access-key-id","bucketName":"my-bucket-name","configurationFilePath":"my-configuration-file-path","region":"us-east-2","secretAccessKey":"my-secret-access-key"}'
     
   cloud:
     enabled: true
