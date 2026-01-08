@@ -148,7 +148,7 @@
                         "features": {
                             "type": "object",
                             "properties": {
-                                "experimental.orchestratorGroups": {
+                                "experimental.clusters": {
                                     "type": "boolean"
                                 }
                             }
@@ -165,7 +165,7 @@
                                         "enabled": {
                                             "type": "boolean"
                                         },
-                                        "group": {
+                                        "cluster": {
                                             "type": "object",
                                             "properties": {
                                                 "name": {
@@ -180,7 +180,7 @@
                                 }
                             }
                         },
-                        "orchestratorGroups": {
+                        "clusters": {
                             "type": "array",
                             "items": {
                                 "type": "object",
@@ -251,9 +251,12 @@
                 "customConfigMapName": {
                     "type": "string"
                 },
-                "groups": {
+                "clusters": {
                     "type": "object",
                     "properties": {
+                        "create": {
+                            "type": "boolean"
+                        },
                         "primary": {
                             "type": "object",
                             "properties": {

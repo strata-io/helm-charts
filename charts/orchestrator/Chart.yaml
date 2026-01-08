@@ -20,13 +20,13 @@ type: application
 # This is the chart version. This version number should be incremented each time we
 # make changes to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.14
+version: 1.0.0
 
 # This is the version number of the application being deployed. This version number
 # should be incremented each time we make changes to the application. Versions are
 # not expected to follow Semantic Versioning. They should reflect the version the
 # application is using. It is recommended to use it with quotes.
-appVersion: "0.23.45"
+appVersion: "v2026.01.2"
 
 # Our minimum Kubernetes version is 1.24.0. This is the version of Kubernetes that
 # we have tested and verified that the chart works with. Users are free to try
@@ -37,7 +37,7 @@ appVersion: "0.23.45"
 # required by RedHat Marketplace for certification of the chart.
 #
 # Before changing this value, please check compatibility with customer deployments.
-kubeVersion: '>=1.21.0'
+kubeVersion: '>=1.24.0'
 
 keywords:
   - identity

@@ -1,0 +1,27 @@
+# Example values for deploying Orchestrator with clustering enabled.
+# This configuration enables cluster-based routing and session management.
+#
+# Usage:
+#   helm install orchestrator ./charts/orchestrator -f example-values/minimal-orchestrator-clusters.yaml
+#
+# For information on obtaining the Maverics Docker image, see:
+#   https://docs.strata.io/docs/docker
+
+replicaCount: 3
+
+image:
+  repository: maverics_base
+  tag: ""  # Defaults to appVersion in Chart.yaml
+  pullPolicy: IfNotPresent
+
+orchestrator:
+  clusters:
+    create: true
+    primary:
+      psk:
+        createSecret: true
+        # Generate a 32-byte hex PSK with: openssl rand -hex 32
+        value: ""
+  customConfig:
+    features:
+      experimental.clusters: true

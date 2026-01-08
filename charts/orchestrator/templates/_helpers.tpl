@@ -62,30 +62,27 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-Create the name of the primary Orchestrator Group
+Create the name of the primary Cluster
 */}}
-{{- define "orchestrator.primaryGroupName" -}}
-{{- if .Values.orchestrator.groups.primary.name }}
-{{- default .Values.orchestrator.groups.primary.name}}
+{{- define "orchestrator.primaryClusterName" -}}
+{{- if .Values.orchestrator.clusters.primary.name }}
+{{- default .Values.orchestrator.clusters.primary.name}}
 {{- else }}
 {{- printf "%s-%s-%s" (include "orchestrator.fullname" .) .Release.Namespace .Values.clusterDomain | replace "." "-" }}
 {{- end }}
 {{- end }}
 
 {{/*
-Create the name of the primary group PSK secret to use
+Create the name of the primary cluster PSK secret to use
 */}}
-{{- define "orchestrator.primaryGroupPSKSecretName" -}}
-{{- if .Values.orchestrator.groups.primary.psk.secretName }}
-{{- default .Values.orchestrator.groups.primary.psk.secretName }}
+{{- define "orchestrator.primaryClusterPSKSecretName" -}}
+{{- if .Values.orchestrator.clusters.primary.psk.secretName }}
+{{- default .Values.orchestrator.clusters.primary.psk.secretName }}
 {{- else }}
-{{- printf "%s-primary-group-psk" (include "orchestrator.fullname" .) }}
+{{- printf "%s-primary-cluster-psk" (include "orchestrator.fullname" .) }}
 {{- end }}
 {{- end }}
 
-{{/*
-Create the name of the primary group PSK secret to use
-*/}}
 {{- define "orchestrator.cloudConfigName" -}}
 {{- if .Values.cloud.config.name }}
 {{- default .Values.cloud.config.name }}

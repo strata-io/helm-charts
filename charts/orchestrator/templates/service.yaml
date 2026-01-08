@@ -14,11 +14,11 @@ spec:
   selector:
     {{- include "orchestrator.selectorLabels" . | nindent 4 }}
 ---
-{{- if .Values.orchestrator.groups.create -}}
+{{- if .Values.orchestrator.clusters.create -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "orchestrator.fullname" . }}-groups
+  name: {{ include "orchestrator.fullname" . }}-clusters
   labels:
     {{- include "orchestrator.labels" . | nindent 4 }}
 spec:
