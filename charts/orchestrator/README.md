@@ -59,7 +59,9 @@ _See [helm upgrade](https://helm.sh/docs/helm/helm_upgrade/) for command documen
 
 ### Upgrading to 1.0.0
 
-Version 1.0.0 introduces a **breaking change**: "orchestrator groups" has been renamed to "clusters" throughout the chart.
+Version 1.0.0 introduces **breaking changes**:
+
+#### Terminology: "orchestrator groups" renamed to "clusters"
 
 | Before (0.x) | After (1.0.0) |
 |--------------|---------------|
@@ -69,7 +71,16 @@ Version 1.0.0 introduces a **breaking change**: "orchestrator groups" has been r
 | `MAVERICS_GROUPS_PRIMARY_*` env vars | `MAVERICS_CLUSTERS_PRIMARY_*` |
 | `<release>-groups` headless service | `<release>-clusters` |
 
-Users upgrading from `0.x` must update their values files:
+#### Default configuration changes
+
+| Setting | Before (0.x) | After (1.0.0) |
+|---------|--------------|---------------|
+| `replicaCount` | `3` | `1` |
+| `baseConfig` | Included full cluster configuration | Minimal (only `version` and `http.address`) |
+
+Clustering is now an opt-in feature. Users who want clustering must explicitly configure it via `customConfig`. See [example-values/minimal-orchestrator-clusters.yaml](example-values/minimal-orchestrator-clusters.yaml) for a complete example.
+
+#### Migration example
 
 ```yaml
 # Before (0.x)

@@ -1,7 +1,7 @@
 # Default values for orchestrator.
 # This is a YAML-formatted file.
 
-replicaCount: 3
+replicaCount: 1
 
 image:
   repository: maverics
@@ -170,48 +170,19 @@ orchestrator:
         # This can be the raw value or it can take advantage of the Orchestrators
         # support for environmental variables or secret stores.
         value: ""
-  # This is the base configuration used for the Orchestrator. By default, it
-  # configures the Orchestrators to be in a Cluster and it has Cluster
-  # HTTP Routing enabled. Configuration provided in customConfig will be merged with
-  # this config. The customConfig will override any overlapping values. To not use
-  # this baseConfig, just set it to `{}` in your values file.
+
+  # This is the base configuration used for the Orchestrator. Configuration
+  # provided in customConfig will be merged with this config. The customConfig
+  # will override any overlapping values. To not use this baseConfig, set it to
+  # `null` in your values file.
+  #
+  # For cluster deployments, see example-values/minimal-orchestrator-clusters.yaml
   baseConfig:
     version: 0.0.1
-
-    features:
-      experimental.clusters: false
 
     http:
       address: >-
         {{ printf "{{ env.MAVERICS_HTTP_ADDRESS}}" }}
-      routing:
-        enabled: true
-        type: cluster
-        cluster:
-          name: >-
-            {{ printf "{{ env.MAVERICS_CLUSTERS_PRIMARY_NAME }}" }}
-
-    clusters:
-      - name: >-
-          {{ printf "{{ env.MAVERICS_CLUSTERS_PRIMARY_NAME }}" }}
-        addresses:
-          membership: >-
-            {{ printf "{{ env.MAVERICS_CLUSTERS_PRIMARY_MEMBERSHIP_ADDR }}" }}
-          data: >-
-            {{ printf "{{ env.MAVERICS_CLUSTERS_PRIMARY_DATA_ADDR }}" }}
-        discovery:
-          method: srvDNS
-          srvDNS:
-            pollInterval: 5s
-            names:
-              - >-
-                {{ printf "{{ env.MAVERICS_CLUSTERS_PRIMARY_MEMBERSHIP_SRV_RECORD }}" }}
-        encryption:
-          nodeKey:
-            file: >-
-              {{ printf "{{ env.MAVERICS_CLUSTERS_PRIMARY_NODE_KEY_FILE}}" }}
-          psk: >-
-            {{ printf "{{ env.MAVERICS_CLUSTERS_PRIMARY_SECURITY_PSK}}" }}
 
   # The user provided custom configuration for the Orchestrator. This will be merged
   # with the baseConfig. This config will override any overlapping values in the

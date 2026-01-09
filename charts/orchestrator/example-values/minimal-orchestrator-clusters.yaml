@@ -1,6 +1,10 @@
 # Example values for deploying Orchestrator with clustering enabled.
 # This configuration enables cluster-based routing and session management.
 #
+# IMPORTANT: This is an example configuration. Do NOT use the example PSK value
+# in production. Generate your own secure PSK and store it properly using
+# Kubernetes secrets or a secrets manager.
+#
 # Usage:
 #   helm install orchestrator ./charts/orchestrator -f example-values/minimal-orchestrator-clusters.yaml
 #
@@ -9,19 +13,45 @@
 
 replicaCount: 3
 
-image:
-  repository: maverics_base
-  tag: ""  # Defaults to appVersion in Chart.yaml
-  pullPolicy: IfNotPresent
-
 orchestrator:
   clusters:
     create: true
     primary:
       psk:
         createSecret: true
-        # Generate a 32-byte hex PSK with: openssl rand -hex 32
-        value: ""
+        # SECURITY: Generate your own 32-byte hex PSK (e.g., `openssl rand -hex 32`)
+        # Do NOT use this example value in production!
+        value: "71649a82bf79db7a367d7a4afdd4de3748317cfcdb2f0fb343843ad3b9efa083"
   customConfig:
     features:
       experimental.clusters: true
+
+    http:
+      routing:
+        enabled: true
+        type: cluster
+        cluster:
+          name: >-
+            {{ printf "{{ env.MAVERICS_CLUSTERS_PRIMARY_NAME }}" }}
+
+    clusters:
+      - name: >-
+          {{ printf "{{ env.MAVERICS_CLUSTERS_PRIMARY_NAME }}" }}
+        addresses:
+          membership: >-
+            {{ printf "{{ env.MAVERICS_CLUSTERS_PRIMARY_MEMBERSHIP_ADDR }}" }}
+          data: >-
+            {{ printf "{{ env.MAVERICS_CLUSTERS_PRIMARY_DATA_ADDR }}" }}
+        discovery:
+          method: srvDNS
+          srvDNS:
+            pollInterval: 5s
+            names:
+              - >-
+                {{ printf "{{ env.MAVERICS_CLUSTERS_PRIMARY_MEMBERSHIP_SRV_RECORD }}" }}
+        encryption:
+          nodeKey:
+            file: >-
+              {{ printf "{{ env.MAVERICS_CLUSTERS_PRIMARY_NODE_KEY_FILE }}" }}
+          psk: >-
+            {{ printf "{{ env.MAVERICS_CLUSTERS_PRIMARY_SECURITY_PSK }}" }}
