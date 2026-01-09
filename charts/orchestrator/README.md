@@ -15,6 +15,7 @@ manager.
   - [Add and Update Repo](#add-and-update-repo)
   - [Install](#install)
   - [Upgrade](#upgrade)
+    - [Upgrading to 1.0.0](#upgrading-to-100)
   - [Example Values](#example-values)
   - [Uninstall](#uninstall)
   - [FAQs](#faqs)
@@ -55,6 +56,36 @@ helm upgrade [RELEASE_NAME] strata/orchestrator --namespace [NAMESPACE]
 ```
 
 _See [helm upgrade](https://helm.sh/docs/helm/helm_upgrade/) for command documentation._
+
+### Upgrading to 1.0.0
+
+Version 1.0.0 introduces a **breaking change**: "orchestrator groups" has been renamed to "clusters" throughout the chart.
+
+| Before (0.x) | After (1.0.0) |
+|--------------|---------------|
+| `orchestrator.groups.*` | `orchestrator.clusters.*` |
+| `features.experimental.orchestratorGroups` | `features.experimental.clusters` |
+| `http.routing.type: group` | `http.routing.type: cluster` |
+| `MAVERICS_GROUPS_PRIMARY_*` env vars | `MAVERICS_CLUSTERS_PRIMARY_*` |
+| `<release>-groups` headless service | `<release>-clusters` |
+
+Users upgrading from `0.x` must update their values files:
+
+```yaml
+# Before (0.x)
+orchestrator:
+  groups:
+    create: true
+    primary:
+      name: my-group
+
+# After (1.0.0)
+orchestrator:
+  clusters:
+    create: true
+    primary:
+      name: my-cluster
+```
 
 ## Example Values
 
