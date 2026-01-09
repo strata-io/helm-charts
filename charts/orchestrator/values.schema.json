@@ -145,103 +145,16 @@
                 "baseConfig": {
                     "type": "object",
                     "properties": {
-                        "features": {
-                            "type": "object",
-                            "properties": {
-                                "experimental.orchestratorGroups": {
-                                    "type": "boolean"
-                                }
-                            }
+                        "version": {
+                            "type": "string"
                         },
                         "http": {
                             "type": "object",
                             "properties": {
                                 "address": {
                                     "type": "string"
-                                },
-                                "routing": {
-                                    "type": "object",
-                                    "properties": {
-                                        "enabled": {
-                                            "type": "boolean"
-                                        },
-                                        "group": {
-                                            "type": "object",
-                                            "properties": {
-                                                "name": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        "type": {
-                                            "type": "string"
-                                        }
-                                    }
                                 }
                             }
-                        },
-                        "orchestratorGroups": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "addresses": {
-                                        "type": "object",
-                                        "properties": {
-                                            "data": {
-                                                "type": "string"
-                                            },
-                                            "membership": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    },
-                                    "discovery": {
-                                        "type": "object",
-                                        "properties": {
-                                            "method": {
-                                                "type": "string"
-                                            },
-                                            "srvDNS": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "names": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "type": "string"
-                                                        }
-                                                    },
-                                                    "pollInterval": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    },
-                                    "encryption": {
-                                        "type": "object",
-                                        "properties": {
-                                            "nodeKey": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "file": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            },
-                                            "psk": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    },
-                                    "name": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        },
-                        "version": {
-                            "type": "string"
                         }
                     }
                 },
@@ -251,9 +164,12 @@
                 "customConfigMapName": {
                     "type": "string"
                 },
-                "groups": {
+                "clusters": {
                     "type": "object",
                     "properties": {
+                        "create": {
+                            "type": "boolean"
+                        },
                         "primary": {
                             "type": "object",
                             "properties": {

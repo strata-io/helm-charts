@@ -15,6 +15,7 @@ manager.
   - [Add and Update Repo](#add-and-update-repo)
   - [Install](#install)
   - [Upgrade](#upgrade)
+    - [Upgrading to 1.0.0](#upgrading-to-100)
   - [Example Values](#example-values)
   - [Uninstall](#uninstall)
   - [FAQs](#faqs)
@@ -25,7 +26,7 @@ manager.
 
 ## Prerequisites
 
-Kubernetes: `>=1.21.0-0`
+Kubernetes: `>=1.24.0-0`
 
 ## Add and Update Repo
 
@@ -55,6 +56,47 @@ helm upgrade [RELEASE_NAME] strata/orchestrator --namespace [NAMESPACE]
 ```
 
 _See [helm upgrade](https://helm.sh/docs/helm/helm_upgrade/) for command documentation._
+
+### Upgrading to 1.0.0
+
+Version 1.0.0 introduces **breaking changes**:
+
+#### Terminology: "orchestrator groups" renamed to "clusters"
+
+| Before (0.x) | After (1.0.0) |
+|--------------|---------------|
+| `orchestrator.groups.*` | `orchestrator.clusters.*` |
+| `features.experimental.orchestratorGroups` | `features.experimental.clusters` |
+| `http.routing.type: group` | `http.routing.type: cluster` |
+| `MAVERICS_GROUPS_PRIMARY_*` env vars | `MAVERICS_CLUSTERS_PRIMARY_*` |
+| `<release>-groups` headless service | `<release>-clusters` |
+
+#### Default configuration changes
+
+| Setting | Before (0.x) | After (1.0.0) |
+|---------|--------------|---------------|
+| `replicaCount` | `3` | `1` |
+| `baseConfig` | Included full cluster configuration | Minimal (only `version` and `http.address`) |
+
+Clustering is now an opt-in feature. Users who want clustering must explicitly configure it via `customConfig`. See [example-values/minimal-orchestrator-clusters.yaml](example-values/minimal-orchestrator-clusters.yaml) for a complete example.
+
+#### Migration example
+
+```yaml
+# Before (0.x)
+orchestrator:
+  groups:
+    create: true
+    primary:
+      name: my-group
+
+# After (1.0.0)
+orchestrator:
+  clusters:
+    create: true
+    primary:
+      name: my-cluster
+```
 
 ## Example Values
 

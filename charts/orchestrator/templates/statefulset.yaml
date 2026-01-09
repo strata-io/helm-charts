@@ -63,26 +63,26 @@ spec:
             - name: MAVERICS_CONFIG
               value: /etc/maverics/config/maverics.yml
             {{- end }}
-            {{- if .Values.orchestrator.groups.create -}}
-            - name: MAVERICS_GROUPS_PRIMARY_NAME
-              value: {{ include "orchestrator.primaryGroupName" . }}
-            - name: MAVERICS_GROUPS_PRIMARY_MEMBERSHIP_ADDR
+            {{- if .Values.orchestrator.clusters.create }}
+            - name: MAVERICS_CLUSTERS_PRIMARY_NAME
+              value: {{ include "orchestrator.primaryClusterName" . }}
+            - name: MAVERICS_CLUSTERS_PRIMARY_MEMBERSHIP_ADDR
               value: /ip4/0.0.0.0/tcp/9450
-            - name: MAVERICS_GROUPS_PRIMARY_MEMBERSHIP_SRV_RECORD
-              value: "_membership-udp._udp.{{ include "orchestrator.fullname" . }}-groups.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}."
-            - name: MAVERICS_GROUPS_PRIMARY_DATA_ADDR
+            - name: MAVERICS_CLUSTERS_PRIMARY_MEMBERSHIP_SRV_RECORD
+              value: "_membership-udp._udp.{{ include "orchestrator.fullname" . }}-clusters.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}."
+            - name: MAVERICS_CLUSTERS_PRIMARY_DATA_ADDR
               value: /ip4/0.0.0.0/tcp/9451
-            {{ with .Values.orchestrator.groups.primary.psk }}
+            {{ with .Values.orchestrator.clusters.primary.psk }}
             {{ if or (and .createSecret .value) .secretName }}
-            - name: MAVERICS_GROUPS_PRIMARY_SECURITY_PSK
+            - name: MAVERICS_CLUSTERS_PRIMARY_SECURITY_PSK
               valueFrom:
                 secretKeyRef:
-                  name: "{{ include "orchestrator.primaryGroupPSKSecretName" $ }}"
+                  name: "{{ include "orchestrator.primaryClusterPSKSecretName" $ }}"
                   key: "{{ required "A valid key name for the PSK is required!" .secretKey }}"
             {{ end }}
             {{ end }}
-            - name: MAVERICS_GROUPS_PRIMARY_NODE_KEY_FILE
-              value: /etc/maverics/groups/tls/primary-key
+            - name: MAVERICS_CLUSTERS_PRIMARY_NODE_KEY_FILE
+              value: /etc/maverics/clusters/tls/primary-key
             {{- end }}
             {{- range $key, $value := .Values.env }}
             - name: "{{ tpl $key $ }}"
@@ -124,8 +124,8 @@ spec:
             - name: orchestrator-config
               mountPath: /etc/maverics/config/
             {{- end }}
-            - name: groups-certificates
-              mountPath: /etc/maverics/groups/tls
+            - name: clusters-certificates
+              mountPath: /etc/maverics/clusters/tls
             {{- range .Values.extraSecretMounts }}
             - name: {{ .name }}
               mountPath: {{ .mountPath }}
@@ -152,7 +152,7 @@ spec:
           configMap:
             name: {{ template "orchestrator.cloudConfigName" . }}
         {{- end }}
-        - name: groups-certificates
+        - name: clusters-certificates
           emptyDir: {}
         {{- range .Values.extraConfigmapMounts }}
         - name: {{ tpl .name . }}
