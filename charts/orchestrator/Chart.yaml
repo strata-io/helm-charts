@@ -20,7 +20,7 @@ type: application
 # This is the chart version. This version number should be incremented each time we
 # make changes to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 1.0.2
+version: 1.0.3
 
 # This is the version number of the application being deployed. This version number
 # should be incremented each time we make changes to the application. Versions are
@@ -37,7 +37,7 @@ appVersion: "v2026.01.2"
 # required by RedHat Marketplace for certification of the chart.
 #
 # Before changing this value, please check compatibility with customer deployments.
-kubeVersion: '>=1.24.0'
+kubeVersion: '>=1.24.0-0'
 
 keywords:
   - identity
