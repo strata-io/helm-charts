@@ -8,6 +8,41 @@ entries:
       charts.openshift.io/supportURL: https://github.com/strata-io/helm-charts
     apiVersion: v2
     appVersion: v2026.01.2
+    created: "2026-04-30T18:48:34.386308902Z"
+    description: 'Maverics Identity Orchestrator (also referred to as an "Orchestrator")
+      is a distributed identity management platform that abstracts authentication
+      and session management, connects to any identity/attribute system, replicates
+      and synchronizes policies and configurations. '
+    digest: 055d263543d63d4535f0e779638540d7f18be263db58887b3b011f7f4ca2cde1
+    home: https://www.strata.io/
+    icon: https://raw.githubusercontent.com/strata-io/helm-charts/main/assets/logo_maverics.png
+    keywords:
+    - identity
+    - orchestration
+    - authentication
+    - authorization
+    - idp
+    - oidc
+    - saml
+    - webauthn
+    - cybersecurity
+    - mesh
+    kubeVersion: '>=1.24.0-0'
+    maintainers:
+    - email: granville@strata.io
+      name: gramidt
+    name: orchestrator
+    type: application
+    urls:
+    - https://github.com/strata-io/helm-charts/releases/download/orchestrator-1.0.4/orchestrator-1.0.4.tgz
+    version: 1.0.4
+  - annotations:
+      charts.openshift.io/archs: x86_64
+      charts.openshift.io/name: Strata - Maverics Identity Orchestrator
+      charts.openshift.io/provider: Strata Identity, Inc.
+      charts.openshift.io/supportURL: https://github.com/strata-io/helm-charts
+    apiVersion: v2
+    appVersion: v2026.01.2
     created: "2026-03-27T14:46:28.625066882Z"
     description: 'Maverics Identity Orchestrator (also referred to as an "Orchestrator")
       is a distributed identity management platform that abstracts authentication
@@ -596,4 +631,4 @@ entries:
     urls:
     - https://github.com/strata-io/helm-charts/releases/download/orchestrator-0.1.2/orchestrator-0.1.2.tgz
     version: 0.1.2
-generated: "2026-03-27T14:46:28.625215589Z"
+generated: "2026-04-30T18:48:34.38644702Z"
