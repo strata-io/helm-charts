@@ -62,6 +62,9 @@
         "envValueFrom": {
             "type": "object"
         },
+        "extraConfigmapMounts": {
+            "type": "array"
+        },
         "extraSecretMounts": {
             "type": "array"
         },
