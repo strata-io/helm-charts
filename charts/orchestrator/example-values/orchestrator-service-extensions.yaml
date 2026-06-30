@@ -1,0 +1,25 @@
+# Example: mount Maverics service extensions from an existing ConfigMap.
+#
+# Service extension files are managed in a ConfigMap that you create separately,
+# then mounted into the Orchestrator pod via extraConfigmapMounts and referenced
+# from the Orchestrator configuration by their mount path.
+#
+# 1. Create the ConfigMap from your extension files:
+#      kubectl create configmap my-extensions --from-file=./extensions/
+#
+# 2. Install the chart with these values.
+
+replicaCount: 1
+
+extraConfigmapMounts:
+  - name: service-extensions
+    configMap: my-extensions
+    mountPath: /etc/maverics/extensions
+    readOnly: true
+
+orchestrator:
+  # Reference the mounted extension files from your Orchestrator config.
+  customConfig:
+    serviceExtensions:
+      - name: exampleExtension
+        file: /etc/maverics/extensions/example.go

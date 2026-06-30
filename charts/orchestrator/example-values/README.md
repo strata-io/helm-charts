@@ -24,6 +24,14 @@ starter template.
 
     ```kubectl create configmap mycustomconfig --from-file=maverics.yml=/etc/maverics/maverics-k8s.yaml```
 
+* [orchestrator-service-extensions.yaml](./orchestrator-service-extensions.yaml)
+
+    This example describes how to mount additional files, such as Maverics service extensions, from an existing ConfigMap using `extraConfigmapMounts`, and how to reference them from the Orchestrator configuration.
+
+    Example of generating a ConfigMap from a directory of extension files.
+
+    ```kubectl create configmap my-extensions --from-file=./extensions/```
+
 * [minimal-orchestrator-standalone-cloud-s3.yaml](./minimal-orchestrator-standalone-cloud-s3.yaml)
   This example describes how to configure the helm chart to use a shared storage provider such as an S3 bucket, github, etc for the maverics configuration bundle.
 

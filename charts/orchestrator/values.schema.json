@@ -62,6 +62,22 @@
         "envValueFrom": {
             "type": "object"
         },
+        "extraConfigmapMounts": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["name", "configMap", "mountPath"],
+                "properties": {
+                    "name":      { "type": "string" },
+                    "configMap": { "type": "string" },
+                    "mountPath": { "type": "string" },
+                    "readOnly":  { "type": "boolean" },
+                    "subPath":   { "type": "string" },
+                    "items":     { "type": "array" }
+                },
+                "additionalProperties": false
+            }
+        },
         "extraSecretMounts": {
             "type": "array"
         },

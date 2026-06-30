@@ -119,6 +119,19 @@ extraSecretMounts: []
 
 extraVolumeMounts: []
 
+extraConfigmapMounts: []
+# - name: service-extensions
+#   configMap: my-extensions        # name of a ConfigMap you create separately
+#   mountPath: /etc/maverics/extensions
+#   readOnly: true
+#   # subPath mounts a single key as a single file at mountPath instead of the
+#   # whole ConfigMap as a directory (note: subPath mounts do not auto-update).
+#   subPath: ""
+#   # items selects/renames which ConfigMap keys are projected into the volume.
+#   # items:
+#   #   - key: example.go
+#   #     path: example.go
+
 cloud:
   enabled: false
   config:

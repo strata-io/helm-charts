@@ -140,6 +140,12 @@ spec:
               subPath: {{ .subPath | default "" }}
               readOnly: {{ .readOnly }}
             {{- end }}
+            {{- range .Values.extraConfigmapMounts }}
+            - name: {{ tpl .name $ }}
+              mountPath: {{ .mountPath }}
+              subPath: {{ .subPath | default "" }}
+              readOnly: {{ .readOnly }}
+            {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriod }}
       volumes:
         - name: orchestrator-config
@@ -157,12 +163,12 @@ spec:
         - name: clusters-certificates
           emptyDir: {}
         {{- range .Values.extraConfigmapMounts }}
-        - name: {{ tpl .name . }}
+        - name: {{ tpl .name $ }}
           configMap:
-            name: {{ tpl .configMap . }}
+            name: {{ tpl .configMap $ }}
             {{- with .items }}
             items:
-              {{- toYaml . | nindent 8 }}
+              {{- toYaml . | nindent 14 }}
             {{- end }}
         {{- end }}
         {{- range .Values.extraSecretMounts }}
