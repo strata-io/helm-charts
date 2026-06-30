@@ -144,7 +144,7 @@ spec:
             - name: {{ tpl .name $ }}
               mountPath: {{ .mountPath }}
               subPath: {{ .subPath | default "" }}
-              readOnly: {{ .readOnly | default true }}
+              readOnly: {{ .readOnly }}
             {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriod }}
       volumes:
@@ -168,7 +168,7 @@ spec:
             name: {{ tpl .configMap $ }}
             {{- with .items }}
             items:
-              {{- toYaml . | nindent 8 }}
+              {{- toYaml . | nindent 14 }}
             {{- end }}
         {{- end }}
         {{- range .Values.extraSecretMounts }}
