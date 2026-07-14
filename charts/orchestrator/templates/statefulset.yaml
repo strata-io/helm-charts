@@ -184,7 +184,7 @@ spec:
         {{- else if .projected }}
         - name: {{ .name }}
           projected:
-            {{- toYaml .projected | nindent 6 }}
+            {{- toYaml .projected | nindent 12 }}
         {{- else if .csi }}
         - name: {{ .name }}
           csi:
