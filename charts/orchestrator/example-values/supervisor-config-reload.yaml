@@ -1,0 +1,55 @@
+# Zero-downtime config reload for the supervisor process.
+#
+# The Orchestrator runs as a supervisor process that performs zero-downtime
+# config reloads by handing the listening socket to a freshly-started child
+# over a Unix domain socket. In Kubernetes, three requirements must all be
+# satisfied for a reload to apply cleanly without dropping in-flight state.
+# If any one is missing, the reload degrades in a distinct way:
+#
+# Missing requirement          | Symptom                                | Log signal
+# MAVERICS_RELOAD_CONFIG=true  | config change ignored until pod restart| (no log)
+# Writable tmpdir              | reload is a no-op; old config serves   | failed to create handoff listener
+# Stable machine-id            | reload applies; in-flight state lost   | failed to connect to handoff socket
+#
+# This file demonstrates all three: it enables reloads, points TMPDIR at a
+# writable emptyDir for the handoff socket, and projects a stable machine-id
+# derived from the StatefulSet pod name.
+
+env:
+  MAVERICS_RELOAD_CONFIG: "true"
+  TMPDIR: "/run/maverics"
+  # MAVERICS_POLLING_INTERVAL_SECONDS: "30"  # optional; default is 30s
+
+# Writable location for the handoff socket. With no existingClaim/hostPath/csi
+# set, the chart's statefulset template backs this mount with an emptyDir.
+extraVolumeMounts:
+  - name: handoff-tmp
+    mountPath: /run/maverics
+    readOnly: false
+
+# Stable, per-replica machine-id. The supervisor uses it to locate the handoff
+# socket across a reload; it must stay constant for the lifetime of the pod.
+extraSecretMounts:
+  - name: machine-id
+    mountPath: /etc/machine-id
+    subPath: machine-id
+    readOnly: true
+    projected:
+      sources:
+        - downwardAPI:
+            items:
+              - path: machine-id
+                fieldRef:
+                  # StatefulSet pod name is stable across restarts and unique
+                  # per replica -- prefer it over metadata.uid, which changes
+                  # when a pod is recreated.
+                  fieldPath: metadata.name
+
+# The emptyDir mount gives the socket a writable location, so the hardened
+# root filesystem can stay locked down.
+securityContext:
+  readOnlyRootFilesystem: true  # preserved -- emptyDir provides the writable socket dir
+
+orchestrator:
+  customConfig:
+    version: "1"
