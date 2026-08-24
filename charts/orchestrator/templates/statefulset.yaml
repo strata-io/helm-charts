@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ include "orchestrator.fullname" . }}
+  namespace: {{ include "orchestrator.namespace" . }}
   labels:
     {{- include "orchestrator.labels" . | nindent 4 }}
 spec:
@@ -71,7 +72,7 @@ spec:
             - name: MAVERICS_CLUSTERS_PRIMARY_MEMBERSHIP_ADDR
               value: /ip4/0.0.0.0/tcp/9450
             - name: MAVERICS_CLUSTERS_PRIMARY_MEMBERSHIP_SRV_RECORD
-              value: "_membership-udp._udp.{{ include "orchestrator.fullname" . }}-clusters.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}."
+              value: "_membership-udp._udp.{{ include "orchestrator.fullname" . }}-clusters.{{ include "orchestrator.namespace" . }}.svc.{{ .Values.clusterDomain }}."
             - name: MAVERICS_CLUSTERS_PRIMARY_DATA_ADDR
               value: /ip4/0.0.0.0/tcp/9451
             {{ with .Values.orchestrator.clusters.primary.psk }}

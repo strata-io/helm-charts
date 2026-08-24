@@ -68,7 +68,7 @@ Create the name of the primary Cluster
 {{- if .Values.orchestrator.clusters.primary.name }}
 {{- default .Values.orchestrator.clusters.primary.name}}
 {{- else }}
-{{- printf "%s-%s-%s" (include "orchestrator.fullname" .) .Release.Namespace .Values.clusterDomain | replace "." "-" }}
+{{- printf "%s-%s-%s" (include "orchestrator.fullname" .) (include "orchestrator.namespace" .) .Values.clusterDomain | replace "." "-" }}
 {{- end }}
 {{- end }}
 
@@ -81,6 +81,13 @@ Create the name of the primary cluster PSK secret to use
 {{- else }}
 {{- printf "%s-primary-cluster-psk" (include "orchestrator.fullname" .) }}
 {{- end }}
+{{- end }}
+
+{{/*
+Allow overriding the namespace for subchart use cases.
+*/}}
+{{- define "orchestrator.namespace" -}}
+{{- default .Release.Namespace .Values.namespaceOverride | lower | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{- define "orchestrator.cloudConfigName" -}}
