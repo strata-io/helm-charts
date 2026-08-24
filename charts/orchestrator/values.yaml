@@ -12,6 +12,12 @@ image:
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+# Overrides the namespace for all resources. Useful when this chart is used as a subchart
+# and resources must land in a namespace other than the Helm release namespace.
+# The caller is responsible for pre-creating the target namespace; --create-namespace only
+# creates the release namespace. If parent-chart RoleBindings reference this ServiceAccount,
+# their subject namespace must match this override.
+namespaceOverride: ""
 
 clusterDomain: cluster.local
 
