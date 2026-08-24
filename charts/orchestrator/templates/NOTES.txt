@@ -22,8 +22,8 @@
 {{- end }}
 {{- if .Values.namespaceOverride }}
 
-NOTE: namespaceOverride is set to "{{ .Values.namespaceOverride }}". Ensure this namespace
+NOTE: namespaceOverride is set to "{{ include "orchestrator.namespace" . }}". Ensure this namespace
       pre-exists before installing — helm --create-namespace only creates the release namespace.
       If a parent chart grants RBAC to this ServiceAccount, its RoleBinding subject namespace
-      must also be "{{ .Values.namespaceOverride }}".
+      must also be "{{ include "orchestrator.namespace" . }}".
 {{- end }}
